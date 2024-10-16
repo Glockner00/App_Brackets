@@ -37,7 +37,7 @@ class HomeScreen extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => GroupScreen()),
                 );
               },
-              child: Text('View Groups'),
+              child: Text('Groups'),
             ),
             SizedBox(height: 20),
             ElevatedButton(
@@ -47,16 +47,18 @@ class HomeScreen extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => BracketScreen()),
                 );
               },
-              child: Text('View Brackets'),
+              child: Text('Group Stage'),
             ),
+            SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => FinalStageScreen()),
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => FinalStagePage()),
                 );
               },
-              child: Text('View Final Stage'),
+              child: Text('Final Stage'),
             ),
           ],
         ),
@@ -65,10 +67,7 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class FinalStageScreen extends StatelessWidget {
-  final List<String> players =
-      List.generate(32, (index) => 'Player ${index + 1}');
-
+class FinalStagePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,30 +77,56 @@ class FinalStageScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Round 1',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-              ),
-              FinalBracketWidget(
-                  players: players.sublist(0, 16), nextRoundSlot: 5),
-              SizedBox(height: 20),
-              Text(
-                'Semifinals',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-              ),
-              FinalBracketWidget(
-                  players: players.sublist(16, 24), nextRoundSlot: 7),
-              SizedBox(height: 20),
-              Text(
-                'Final',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-              ),
-              FinalBracketWidget(
-                  players: players.sublist(24, 32), nextRoundSlot: 1),
-            ],
+          child: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Final Stage Bracket',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 0),
+                // Displaying 32 blocks in pairs, stacked vertically
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: List.generate(16, (index) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // First player block
+                        SizedBox(
+                          width: 150,
+                          height: 17.5,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black),
+                            ),
+                            child: Center(
+                              child: Text(''),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 0), // Space between the two blocks
+                        // Second player block
+                        SizedBox(
+                          width: 150,
+                          height: 17.5,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black),
+                            ),
+                            child: Center(
+                              child: Text(''),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20), // Space between the pairs
+                      ],
+                    );
+                  }),
+                ),
+              ],
+            ),
           ),
         ),
       ),
