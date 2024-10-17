@@ -77,58 +77,90 @@ class FinalStagePage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Final Stage Bracket',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 0),
-                // Displaying 32 blocks in pairs, stacked vertically
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: List.generate(16, (index) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // First player block
-                        SizedBox(
-                          width: 150,
-                          height: 17.5,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.black),
-                            ),
-                            child: Center(
-                              child: Text(''),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 0), // Space between the two blocks
-                        // Second player block
-                        SizedBox(
-                          width: 150,
-                          height: 17.5,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.black),
-                            ),
-                            child: Center(
-                              child: Text(''),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 20), // Space between the pairs
-                      ],
-                    );
-                  }),
-                ),
-              ],
+          scrollDirection: Axis.horizontal, // Horizontal scroll
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical, // Vertical scroll
+            child: Center(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  // Generate the columns dynamically with adjustable parameters
+                  createBracketColumn(
+                      numPairs: 16,
+                      columnIndex: 0,
+                      pairSpacing: 60.0,
+                      startVerticalOffset: 0),
+                  SizedBox(width: 100.0), // Space between columns
+                  createBracketColumn(
+                      numPairs: 8,
+                      columnIndex: 1,
+                      pairSpacing: 210,
+                      startVerticalOffset: 60),
+                  SizedBox(width: 100.0),
+                  createBracketColumn(
+                      numPairs: 4,
+                      columnIndex: 2,
+                      pairSpacing: 760.0,
+                      startVerticalOffset: 280),
+                  SizedBox(width: 100.0),
+                  createBracketColumn(
+                      numPairs: 2,
+                      columnIndex: 3,
+                      pairSpacing: 300.0,
+                      startVerticalOffset: 150),
+                  SizedBox(width: 100.0),
+                  createBracketColumn(
+                      numPairs: 1,
+                      columnIndex: 4,
+                      pairSpacing: 400.0,
+                      startVerticalOffset: 200),
+                ],
+              ),
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  // Function to create a bracket column with customizable spacing and vertical offset
+  Widget createBracketColumn({
+    required int numPairs,
+    required int columnIndex,
+    required double pairSpacing,
+    required double
+        startVerticalOffset, // New parameter to adjust where the column starts vertically
+  }) {
+    return Padding(
+      padding: EdgeInsets.only(
+          top: startVerticalOffset), // Adjust the column's vertical position
+      child: Column(
+        children: List<Widget>.generate(numPairs, (int index) {
+          return Column(
+            children: <Widget>[
+              SizedBox(
+                width: 150,
+                height: 20.0,
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                  ),
+                ),
+              ),
+              SizedBox(height: 0), // Space between player boxes
+              SizedBox(
+                width: 150,
+                height: 20.0,
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                  ),
+                ),
+              ),
+              SizedBox(height: pairSpacing), // Space between pairs, adjustable
+            ],
+          );
+        }),
       ),
     );
   }
